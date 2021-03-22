@@ -5,3 +5,6 @@ if using windows execute the run script first.
 >and Gcc 
 >and will set path automatically.
 
+# Or use Dev c to execute
+
+

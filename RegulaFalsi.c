@@ -46,7 +46,7 @@ for (i = 0;; i++)
 }
 
 printf("\n");
-printf("root of the function is=%.4f \n", x2);
+printf("Root of the function is=%.4f \n", x2);
 getch();
 }
 
