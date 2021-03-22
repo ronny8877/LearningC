@@ -1,36 +1,42 @@
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
+#include <conio.h>
 
-float f(float);
-float derivative(float);
+#define MAX 8
 
-int main()
-{
-    float x;                 // x: approximation
-    unsigned short i = 1, n; // n: number of iterations
+float f(float x);
+float f1(float x);
 
-    printf("FIRST APPROXIMATION: ");
-    scanf("%f", &x);
+void main ( ){
+float a,b,c,d;
+int i,j,n;
+printf(" \n Enter the number of interations :");
+scanf("%d",&n);
+for(i=-MAX; i<MAX; i++){
+    a=i;
+    b=i+1;
+    if( f(a)*f(b)<=0){
+printf("\n The initial approximation value is : ");
+c=(a+b)/2.0;
+printf("%f",c);
+printf("\n c \t fc(c) ");
+for(j=0; j<n;j++){
+    printf(" \n %-5d %15.6f %15.6f",j+1 ,c ,f(c));
+    d=c-(f(c)/f1(c));
+    c=d;
 
-    printf("ITERATIONS: ");
-    scanf("%hu", &n);
+}
 
-    while (i <= n)
-    {
-        x = x - f(x) / derivative(x);
-        i++;
     }
+}
 
-    printf("APPROXIMATE ROOT: %f \n", x);
-    return 0;
 }
 
 float f(float x)
-{ // f(x)
-    return pow(x, 2) - 5;
+{
+    return (cos(x) -3*x+1);
 }
 
-float derivative(float x)
-{ // f'(x)
-    return 2 * x;
+float f1(float y){
+    return (-sin(y)-3);
 }

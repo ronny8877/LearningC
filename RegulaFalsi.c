@@ -1,40 +1,46 @@
 // C Program for Regula Falsi Method Source CodeC
 
-//Incorrect Programm
-
 #include <stdio.h>
+#include <conio.h>
 #include <math.h>
+
+#define Max 8
+
+float f(float x);
+void main()
+{
+
+    float a, b, c, d;
+    int i, j, n;
+
+    printf(" \n Enter the number of iterations   ");
+    scanf("%d", &n);
+
+    for (i = -Max; i < Max; i++)
+    {
+
+        a = i;
+        b = i + 1;
+        if (f(a) * f(b) <= 0)
+        {
+            printf(" \n The initial approximate limits are \t");
+            printf(" %f \t %f ", a, b);
+            printf(" \n  a \t \t b  \t\t  c \t\t f(c)");
+
+            for (j = 0; j < n; j++)
+            {
+                c = b - (f(b) / (f(b) - f(a))) * (b - a);
+                printf(" \n %10.6f \t  %10.6f \t %10.6f \t %10.6f ", a, b, c, f(c));
+                if (f(c) < 0)
+                    a = c;
+                else
+                    b = c;
+            }
+        }
+    }
+}
+
 float f(float x)
 {
-    return cos(x) - x * exp(x);
-}
-void regula(float *x, float x0, float x1, float fx0, float fx1, int *itr)
-{
-    *x = x0 - ((x1 - x0) / (fx1 - fx0)) * fx0;
-    ++(*itr);
-    printf("Iteration no. %3d X = %7.5f \n", *itr, *x);
-}
-int main()
-{
-    int itr = 0, maxmitr;
-    float x0, x1, x2, x3, allerr;
-    printf("\nEnter the values of x0, x1, allowed error and maximum iterations:\n");
-    scanf("%f %f %f %d", &x0, &x1, &allerr, &maxmitr);
-    regula(&x2, x0, x1, f(x0), f(x1), &itr);
-    do
-    {
-        if (f(x0) * f(x2) < 0)
-            x1 = x2;
-        else
-            x0 = x2;
-        regula(&x3, x0, x1, f(x0), f(x1), &itr);
-        if (fabs(x3 - x2) < allerr)
-        {
-            printf("After %d iterations, root = %6.4f\n", itr, x3);
-            return 0;
-        }
-        x2 = x3;
-    } while (itr < maxmitr);
-    printf("Solution does not converge or iterations not sufficient:\n");
-    return 1;
+    return (cos(x) - x * exp(x));
 }
