@@ -4,7 +4,7 @@ Write a C program to enter a floating point number and print the integer and fra
 
 #include <stdio.h>
 #include <math.h>
-int main(int argc, const char *argv[])
+int main()
 {
     //Define temporary variables
     double value;
