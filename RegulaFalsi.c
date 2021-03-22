@@ -1,54 +1,40 @@
-// Regula Falsi 
+// C Program for Regula Falsi Method Source CodeC
 
-#include<stdio.h>
-#include<conio.h>
-#include<math.h>
+//Incorrect Programm
 
-
-float func(float x){
-    return (x - exp(-x));
-}
-
-
-void main(){
-
-
-int i=0 ,pos=0 ;
-float x0 =0 ,x1=1,x2=0,fx2=0;
-while(1){
-
-if(func(i)==0) printf("Exact root is %d" , i);
-if(func(i)*func(i+1)<0){pos++; break;}
-i++;
-if(pos){
-    x0=i;
-    x1=i+1;
-    printf("Range of of the function is %.0f and %.0f ", x0 ,x1 );
-
-    printf("Regula Falsi Method \n");
-    printf("\n \t \t Calculation Table \t \t \n");
-x2= (x0-((x1-x0)* func(x0)) /(func(x1)-func(x0)));
-fx2= func(x2);
-printf("\ti\tx0\t\tx1\t\tx2\t\tfx2");
-
-for (i = 0;; i++)
+#include <stdio.h>
+#include <math.h>
+float f(float x)
 {
-    printf("\n\t%d\t%f\t%f\t%f\t%f\t\n", i, x0, x1, x2, fx2);
-    if ((float)fabs(x2 - x1) < 0.0001f || (float)fabs(x2 - x0) < 0.0001f)
-        break;
-    if (func(x1) > 0)
-        x1 = x2;
-
-    else
-        x0 = x2;
-    x2 = (x0 - ((x1 - x0) * func(x0)) / (func(x1) - func(x0)));
+    return cos(x) - x * exp(x);
 }
+void regula(float *x, float x0, float x1, float fx0, float fx1, int *itr)
+{
+    *x = x0 - ((x1 - x0) / (fx1 - fx0)) * fx0;
+    ++(*itr);
+    printf("Iteration no. %3d X = %7.5f \n", *itr, *x);
 }
-
-printf("\n");
-printf("Root of the function is=%.4f \n", x2);
-getch();
-}
-
-
+int main()
+{
+    int itr = 0, maxmitr;
+    float x0, x1, x2, x3, allerr;
+    printf("\nEnter the values of x0, x1, allowed error and maximum iterations:\n");
+    scanf("%f %f %f %d", &x0, &x1, &allerr, &maxmitr);
+    regula(&x2, x0, x1, f(x0), f(x1), &itr);
+    do
+    {
+        if (f(x0) * f(x2) < 0)
+            x1 = x2;
+        else
+            x0 = x2;
+        regula(&x3, x0, x1, f(x0), f(x1), &itr);
+        if (fabs(x3 - x2) < allerr)
+        {
+            printf("After %d iterations, root = %6.4f\n", itr, x3);
+            return 0;
+        }
+        x2 = x3;
+    } while (itr < maxmitr);
+    printf("Solution does not converge or iterations not sufficient:\n");
+    return 1;
 }
